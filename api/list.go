@@ -86,8 +86,8 @@ func getServerQueueDetails() (err error) {
 		serverDetails := bytes.Split(serverData[1], []byte("\\"))
 		serverQueue := bytes.FieldsFunc(serverDetails[12], func(c rune) bool { return c == '[' || c == ']' })
 
-		currentPlayerValues, _ := strconv.ParseInt(string(serverDetails[4]), 0, 64)
-		currentserverQueueValues, _ := strconv.ParseInt(string(serverQueue[0]), 0, 64)
+		currentPlayerValues, _ := strconv.ParseInt(string(serverDetails[4]), 0, 32)
+		currentserverQueueValues, _ := strconv.ParseInt(string(serverQueue[0]), 0, 32)
 		ServerDetails.ServerQueue.CurrentPlayers = currentPlayerValues
 		if currentserverQueueValues >= 1 {
 			ServerDetails.ServerQueue.CurrentQueue = currentserverQueueValues
@@ -111,7 +111,7 @@ func parsePlayers() (err error) {
 		for ii, vv := range v.Identifiers {
 			if ii == 0 {
 				hexID := strings.Replace(vv, "steam:", "0x", -1)
-				steamID, _ := strconv.ParseInt(hexID, 0, 64)
+				steamID, _ := strconv.ParseInt(hexID, 0, 32)
 				s := strconv.FormatInt(steamID, 10)
 				p := getPlayerNoPixelInformation(s)
 
